@@ -77,10 +77,44 @@ else:
 
 
 
+#graph
 
 
+def addEdge(graph, edge1, edge2):
+    for i in range(5):
+        graph[edge1][edge2]=1
+        graph[edge2][edge1]=1
 
+def safeToAssign(i, j, graph, v, color):
+    for k in range(v):
+        if graph[i][k]==1 and color[k]==j:
+            return False
+    return True
 
+def function(graph, m, v, i, color):
+    if i==v:
+        return True
+    for j in range(m):
+        if safeToAssign(i, j, graph, v, color):
+            color[i]=j
+            if function(graph, m, v, i+1, color):
+                return True
+            color[i]=-1
+    return False
+
+def graphColoring(graph, m, v):
+    color=[-1]*v
+    i=0
+    return function(graph, m, v, i, color)
+
+m=3
+v=5
+graph=[[0 for i in range(v)] for j in range(v)]
+addEdge(graph, 0, 1)
+addEdge(graph, 0, 2)
+addEdge(graph, 0, 3)
+addEdge(graph, 2, 4)
+graphColoring(graph, m, v)
 
 
 
