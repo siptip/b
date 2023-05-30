@@ -1,0 +1,190 @@
+/***4**/
+class NQueens:
+    def __init__(self, n):
+        self.n = n
+        self.board = [[0 for _ in range(n)] for _ in range(n)]
+
+    def is_safe(self, row, col):
+        # Check if a queen can be placed at the given position
+
+        # Check row on the left side
+        for i in range(col):
+            if self.board[row][i] == 1:
+                return False
+
+        # Check upper diagonal on the left side
+        i = row
+        j = col
+        while i >= 0 and j >= 0:
+            if self.board[i][j] == 1:
+                return False
+            i -= 1
+            j -= 1
+
+        # Check lower diagonal on the left side
+        i = row
+        j = col
+        while i < self.n and j >= 0:
+            if self.board[i][j] == 1:
+                return False
+            i += 1
+            j -= 1
+
+        return True
+
+    def solve_nqueens(self, col):
+        # Base case: If all queens are placed
+        if col >= self.n:
+            return True
+
+        # Try placing a queen in each row of the current column
+        for row in range(self.n):
+            if self.is_safe(row, col):
+                self.board[row][col] = 1
+
+                # Recur to place the rest of the queens
+                if self.solve_nqueens(col + 1):
+                    return True
+
+                # If placing queen in (row, col) doesn't lead to a solution,
+                # backtrack and remove the queen from the current position
+                self.board[row][col] = 0
+
+        # If no queen can be placed in the current column, return False
+        return False
+
+    def print_solution(self):
+        for i in range(self.n):
+            for j in range(self.n):
+                print(self.board[i][j], end=" ")
+            print()
+
+
+# User Input
+n = int(input("Enter the number of queens: "))
+
+nqueens = NQueens(n)
+
+if nqueens.solve_nqueens(0):
+    print("Solution:")
+    nqueens.print_solution()
+else:
+    print("No solution exists for the given number of queens.")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*** chatbot***/
+
+
+class Chatbot:
+    def __init__(self):
+        self.greetings = ["hello", "hi", "hey", "greetings"]
+        self.goodbyes = ["bye", "goodbye", "see you", "take care"]
+        self.questions = ["how are you?", "what's your name?", "what do you do?"]
+
+    def process_input(self, user_input):
+        user_input = user_input.lower()
+
+        if user_input in self.greetings:
+            return "Hello! How can I assist you today?"
+
+        if user_input in self.goodbyes:
+            return "Goodbye! Have a great day!"
+
+        if any(question in user_input for question in self.questions):
+            return "I'm a chatbot. I'm here to help you with any questions or concerns you may have."
+
+        return "I'm sorry, I didn't understand. Can you please rephrase your question?"
+
+# Create Chatbot instance
+chatbot = Chatbot()
+
+# Start conversation
+print("Chatbot: Hello! How can I assist you today?")
+
+# Interactive conversation loop
+while True:
+    user_input = input("User: ")
+
+    if user_input.lower() == "exit":
+        print("Chatbot: Goodbye! Have a great day!")
+        break
+
+    response = chatbot.process_input(user_input)
+    print("Chatbot:", response)
+
+
+
+
+
+
+
+
+
+/* excpert*/
+
+
+class ExpertSystem:
+    def __init__(self):
+        self.questions = {
+            'q1': 'Is the employee punctual and regular?',
+            'q2': 'Does the employee meet deadlines?',
+            'q3': 'Is the employee a team player?',
+            'q4': 'Does the employee take initiative?',
+            'q5': 'Does the employee have good communication skills?'
+        }
+
+        self.rules = {
+            'r1': ['q1', 'q2', 'q3', 'q4', 'q5'],
+            'r2': ['q1', 'q2', 'q3'],
+            'r3': ['q2', 'q4', 'q5'],
+            'r4': ['q1', 'q3', 'q5']
+        }
+
+        self.answers = {
+            'yes': 1,
+            'no': 0
+        }
+
+    def evaluate(self):
+        score = 0
+
+        for rule in self.rules:
+            applicable = True
+            for question in self.rules[rule]:
+                answer = input(self.questions[question] + ' (yes/no): ')
+                if answer.lower() not in self.answers:
+                    print('Invalid input. Please enter "yes" or "no".')
+                    applicable = False
+                    break
+                score += self.answers[answer.lower()]
+            if applicable:
+                break
+
+        if score >= 4:
+            print('The employee has a high performance level.')
+        elif score >= 2:
+            print('The employee has an average performance level.')
+        else:
+            print('The employee has a low performance level.')
+
+
+# Create Expert System instance
+expert_system = ExpertSystem()
+
+# Start evaluation
+expert_system.evaluate()
